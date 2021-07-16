@@ -468,6 +468,28 @@ public class IdentifyingSoullessScript : MonoBehaviour
                     yield return new WaitForSecondsRealtime(1.55f);
                     TextBox.text = "";
                 }
+                else if (Analysis == "Break These Chains")
+                {
+                    SoullessMusic.PlayOneShot(NotBuffer[11]);
+                    LightBulbs[Stages - 1].material = TheLights[1];
+                    TextBox.text = "Break these chains";
+                    yield return new WaitForSeconds(1.125f);
+                    TextBox.text = "that take your freedom";
+                    yield return new WaitForSeconds(1.875f);
+                    TextBox.text = "Liberation";
+                    yield return new WaitForSeconds(1.5f);
+                    TextBox.text += " from your nation";
+                    yield return new WaitForSeconds(1.5f);
+                    TextBox.text = "Break these chains";
+                    yield return new WaitForSeconds(1.125f);
+                    TextBox.text = "and fly to heaven";
+                    yield return new WaitForSeconds(1.875f);
+                    TextBox.text = "Liberation";
+                    yield return new WaitForSeconds(1.5f);
+                    TextBox.text += " from your nation";
+                    yield return new WaitForSeconds(1.5f);
+                    TextBox.text = "";
+                }
                 else {
                     if (PlayTheSection.name == "Machinations")
                     {
