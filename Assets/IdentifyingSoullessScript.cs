@@ -48,6 +48,8 @@ public class IdentifyingSoullessScript : MonoBehaviour
 	bool Toggleable = true;
 	int Stages = 0;
     int SolveSound = 0;
+    int StoredSection = 0;
+    int StrikeCount = 0;
 	
 	//Logging
     static int moduleIdCounter = 1;
@@ -213,6 +215,10 @@ public class IdentifyingSoullessScript : MonoBehaviour
 		Enter.AddInteractionPunch(.2f);
         SoullessMusic.clip = NotBuffer[1];
         SoullessMusic.Play();
+        if (TextBox.text == "" && Enterable)
+        {
+            StartCoroutine(PlayTheQueue());
+        }
         if (Playable && Enterable)
 		{
 			StartCoroutine(TheCorrect());
@@ -255,14 +261,23 @@ public class IdentifyingSoullessScript : MonoBehaviour
 	
 	IEnumerator PlayTheQueue()
 	{
-		Toggleable = false;
 		ActiveBorder = true;
 		Playable = false;
-        int index = UnityEngine.Random.Range(0, SoullessSections.Length);
-        PlayTheSection = SoullessSections[index];
+        if (Toggleable == false)
+        {
+            PlayTheSection = SoullessSections[StoredSection];
+            Debug.LogFormat("[Identifying Soulless #{0}] Replaying section...", moduleId);
+        }
+        else
+        {
+            Toggleable = false;
+            int index = UnityEngine.Random.Range(0, SoullessSections.Length);
+            PlayTheSection = SoullessSections[index];
+            StoredSection = index;
+            Debug.LogFormat("[Identifying Soulless #{0}] The section played: {1}", moduleId, PlayTheSection.name);
+        }
         SoullessMusic.clip = PlayTheSection;
         SoullessMusic.Play();
-        Debug.LogFormat("[Identifying Soulless #{0}] The section played: {1}", moduleId, PlayTheSection.name);
 		while (SoullessMusic.isPlaying)
         {
             yield return new WaitForSecondsRealtime(0.001f);
@@ -562,15 +577,27 @@ public class IdentifyingSoullessScript : MonoBehaviour
             LightBulbs[1].material = TheLights[2];
             LightBulbs[2].material = TheLights[2];
             yield return new WaitForSecondsRealtime(0.3f);
-            Debug.LogFormat("[Identifying Soulless #{0}] You did not imagine the nerves. I have given you a strike and a reset for your failure.", moduleId);
+            Debug.LogFormat("[Identifying Soulless #{0}] You did not imagine the nerves. I have given you a strike for your failure.", moduleId);
 			yield return new WaitForSecondsRealtime(1f);
 			LightBulbs[0].material = TheLights[0];
 			LightBulbs[1].material = TheLights[0];
 			LightBulbs[2].material = TheLights[0];
+            StrikeCount++;
+            if (StrikeCount % 2 == 0 && Stages < 2)
+            {
+                Stages++;
+                if (StrikeCount == 2)
+                    Debug.LogFormat("[Identifying Soulless #{0}] Seems you might need some help. Stage skipped.", moduleId);
+                else if (StrikeCount == 4)
+                    Debug.LogFormat("[Identifying Soulless #{0}] Further help required. Stage 2 skipped as well.", moduleId);
+            }
+            if (Stages > 0)
+                LightBulbs[0].material = TheLights[1];
+            if (Stages > 1)
+                LightBulbs[1].material = TheLights[1];
 			Playable = true;
 			Toggleable = true;
 			Animating1 = false;
-			Stages = 0;
 			Module.HandleStrike();
 		}
 	}
