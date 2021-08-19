@@ -15469,6 +15469,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b18e987eedcde1b4ca93de8020581629, type: 3}
   - {fileID: 8300000, guid: 7d0e199fdb2738942b74c0e97a4492f8, type: 3}
   - {fileID: 8300000, guid: 88edd5298d2a475438e6307051469457, type: 3}
+  - {fileID: 8300000, guid: 05e8a46cdc5843548b0b47dbcde5160d, type: 3}
   SoullessSections:
   - {fileID: 8300000, guid: 8bd11b57018af6e48848adf53ab19bf1, type: 3}
   - {fileID: 8300000, guid: 43d4a29ca7fed514eb25b3781038089f, type: 3}
